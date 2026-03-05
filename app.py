@@ -1,102 +1,48 @@
 import random
 import streamlit as st
+from logic_utils import get_range_for_difficulty, parse_guess, check_guess, update_score
 
-# returns range for difficulty as comma-separated integers?
-def get_range_for_difficulty(difficulty: str):
-    if difficulty == "Easy":
-        return 1, 20
-    if difficulty == "Normal":
-        return 1, 100
-    if difficulty == "Hard":
-        return 1, 50
-    return 1, 100
-
-# returns ok status (True/False), guess, error message
-def parse_guess(raw: str):
-    if raw is None:
-        return False, None, "Enter a guess."
-
-    if raw == "":
-        return False, None, "Enter a guess."
-
-    try:
-        if "." in raw:
-            value = int(float(raw))
-        else:
-            value = int(raw)
-            # check if value in range
-            
-    except Exception:
-        return False, None, "That is not a number."
-
-    return True, value, None
-
-
-def check_guess(guess, secret):
-    if guess == secret:
-        return "Win", "🎉 Correct!"
-
-    try:
-        if guess > secret:
-            return "Too High", "📈 Go HIGHER!"
-        else:
-            return "Too Low", "📉 Go LOWER!"
-    except TypeError:
-        g = str(guess)
-        if g == secret:
-            return "Win", "🎉 Correct!"
-        if g > secret:
-            return "Too High", "📈 Go HIGHER!"
-        return "Too Low", "📉 Go LOWER!"
-
-
-def update_score(current_score: int, outcome: str, attempt_number: int):
-    if outcome == "Win":
-        points = 100 - 10 * (attempt_number + 1)
-        if points < 10:
-            points = 10
-        return current_score + points
-
-    if outcome == "Too High":
-        if attempt_number % 2 == 0:
-            return current_score + 5
-        return current_score - 5
-
-    if outcome == "Too Low":
-        return current_score - 5
-
-    return current_score
-
+# tab name + icon
 st.set_page_config(page_title="Glitchy Guesser", page_icon="🎮")
 
+# page title/header name + caption---------------------
 st.title("🎮 Game Glitch Investigator")
 st.caption("An AI-generated guessing game. Something is off.")
 
+# -----sidebar----------------------------------------------
 st.sidebar.header("Settings")
 
+# difficulty - selected from + stored via dropdown box
 difficulty = st.sidebar.selectbox(
     "Difficulty",
     ["Easy", "Normal", "Hard"],
     index=1,
 )
 
+# LOGIC - range, attempts, difficulty to display on sidebar
+# hardcoded attempts by difficulty
 attempt_limit_map = {
     "Easy": 6,
     "Normal": 8,
     "Hard": 5,
 }
+# attempts, guessing range for current difficulty
 attempt_limit = attempt_limit_map[difficulty]
-
 low, high = get_range_for_difficulty(difficulty)
 
+# text - caption renders small, muted text
+st.sidebar.write(f"Current Difficulty: {difficulty}")
 st.sidebar.caption(f"Range: {low} to {high}")
 st.sidebar.caption(f"Attempts allowed: {attempt_limit}")
 
+# -----logic - state initializion ------------------------------------
+# ON FIRST LOAD - initializes state (with keys - for values to persist across reruns)
 if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
 
+# fixme: logic breaks here
 if "attempts" not in st.session_state:
-    st.session_state.attempts = 0
+    st.session_state.attempts = 0 #fix - sets default attempts to 1 instead of 0
 
 if "score" not in st.session_state:
     st.session_state.score = 0
@@ -107,10 +53,12 @@ if "status" not in st.session_state:
 if "history" not in st.session_state:
     st.session_state.history = []
 
+# -----UI: guessing area ---------------------------------------------
 st.subheader("Make a guess")
 
 st.info(
-    f"Guess a number between 1 and 100. "
+    # fixme: display range dynamically
+    f"Guess a number between {low} and {high}. "
     f"Attempts left: {attempt_limit - st.session_state.attempts}"
 )
 
@@ -123,7 +71,9 @@ with st.expander("Developer Debug Info"):
 
 raw_guess = st.text_input(
     "Enter your guess:",
-    key=f"guess_input_{difficulty}"
+    key=f"guess_input_{difficulty}" #id for input widget
+    # why? -> difficulty changing create widget w/ diff id 
+    #         - resets input automatically
 )
 
 col1, col2, col3 = st.columns(3)
@@ -137,8 +87,12 @@ with col3:
 if new_game: #set to true after new game button clicked
     st.session_state.attempts = 0
     st.session_state.secret = random.randint(1, 100)
+
+    # fixme: logic breaks here
     st.session_state.history = []
-    st.session_status.status = "playing"
+    st.session_state.status = "playing"
+    st.session_state.score = 0
+
     st.success("New game started.")
     st.rerun()
 

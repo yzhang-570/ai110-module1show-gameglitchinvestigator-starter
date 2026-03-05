@@ -15,11 +15,15 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 
 
 Bugs: (fixed) 1. Clicking new game changes doesn't refresh guess history
-      (fixed) 2. Clicking new game hide "start a new game" message
-      3. Accepts numbers outside of the range, 1-100
-      4. Changing difficulty doesn't update secret even if it out of range
-      5. Changing difficulty doesn't update the range displayed in the instructions message "Enter a number between ["range"]..." is als
-      6. Attempts default to 1 (rather than 0), and attempts remaining to 7 (rather than 8)
+      (fixed) 2. Clicking new game doesn't hide "game over" message
+      (fixed) 3. Attempts default to 1 (rather than 0), and attempts remaining to 7 (rather than 8)
+      ------------
+      (fixed) 8. Inconsistent error messages - too low, go lower -> should be opposite
+      (fixed) 2. Clicking new game doesn't reset score
+      (fixed) 6. Updating difficulty doesn't update the range displayed in the instructions message "Enter a number between ["range"]..."
+      ------------
+      4. Accepts numbers outside of the range, 1-100
+      5. Updating difficulty doesn't update secret even if it out of range
       7. History is behind - it updates with the previous guess on your current guess
 ---
 
