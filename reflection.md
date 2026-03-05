@@ -8,6 +8,19 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 - List at least two concrete bugs you noticed at the start  
   (for example: "the secret number kept changing" or "the hints were backwards").
 
+
+      ----------------------------------
+      !!! Remember to commit changes !!!
+      ----------------------------------
+
+
+Bugs: (fixed) 1. Clicking new game changes doesn't refresh guess history
+      (fixed) 2. Clicking new game hide "start a new game" message
+      3. Accepts numbers outside of the range, 1-100
+      4. Changing difficulty doesn't update secret even if it out of range
+      5. Changing difficulty doesn't update the range displayed in the instructions message "Enter a number between ["range"]..." is als
+      6. Attempts default to 1 (rather than 0), and attempts remaining to 7 (rather than 8)
+      7. History is behind - it updates with the previous guess on your current guess
 ---
 
 ## 2. How did you use AI as a teammate?

@@ -1,6 +1,7 @@
 import random
 import streamlit as st
 
+# returns range for difficulty as comma-separated integers?
 def get_range_for_difficulty(difficulty: str):
     if difficulty == "Easy":
         return 1, 20
@@ -10,7 +11,7 @@ def get_range_for_difficulty(difficulty: str):
         return 1, 50
     return 1, 100
 
-
+# returns ok status (True/False), guess, error message
 def parse_guess(raw: str):
     if raw is None:
         return False, None, "Enter a guess."
@@ -23,6 +24,8 @@ def parse_guess(raw: str):
             value = int(float(raw))
         else:
             value = int(raw)
+            # check if value in range
+            
     except Exception:
         return False, None, "That is not a number."
 
@@ -93,7 +96,7 @@ if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
 
 if "attempts" not in st.session_state:
-    st.session_state.attempts = 1
+    st.session_state.attempts = 0
 
 if "score" not in st.session_state:
     st.session_state.score = 0
@@ -127,20 +130,25 @@ col1, col2, col3 = st.columns(3)
 with col1:
     submit = st.button("Submit Guess 🚀")
 with col2:
-    new_game = st.button("New Game 🔁")
+    new_game = st.button("New Game 🔁") # only returns true when clicked
 with col3:
     show_hint = st.checkbox("Show hint", value=True)
 
-if new_game:
+if new_game: #set to true after new game button clicked
     st.session_state.attempts = 0
     st.session_state.secret = random.randint(1, 100)
+    st.session_state.history = []
+    st.session_status.status = "playing"
     st.success("New game started.")
     st.rerun()
 
+# Game over: status is won or lost
 if st.session_state.status != "playing":
     if st.session_state.status == "won":
         st.success("You already won. Start a new game to play again.")
     else:
+        # st.success("test success")
+        # st.warning("test warning")
         st.error("Game over. Start a new game to try again.")
     st.stop()
 
