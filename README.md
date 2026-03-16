@@ -25,13 +25,18 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+- [ X ] Describe the game's purpose.
+The game is a guessing game with 3 modes: easy, normal, and hard. The user must guess a secret, winning number while staying within the range of numbers for their chosen difficulty. As the player guesses, the game offers feedback telling them whether their guess is too high, too low, or is the winning guess (equals the secret number).
+
+- [ X ] Detail which bugs you found.
+A few bugs I found included that starting a new game didn't refresh the player's guess history or hide the "game over" message and sets attempts to 1 rather than 0 by default on first load. I've listed a few more I identified and fixed in reflection.md
+
+- [ X ] Explain what fixes you applied.
+For the bugs described above, I updated lines to modify the part of state storing the player's guess history and modified logic around the game status stored in state to ensure the "game over" message would be hidden upon starting a new game. The default attempts was a small typo, and I simply set the inital value for attempts to 0.
 
 ## 📸 Demo
 
-- [ ] [Insert a screenshot of your fixed, winning game here]
+- [ X ] ![alt text](image.png)
 
 ## 🚀 Stretch Features
 
