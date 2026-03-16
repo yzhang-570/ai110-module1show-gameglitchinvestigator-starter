@@ -9,10 +9,9 @@ def get_range_for_difficulty(difficulty: str):
     return 1, 100
 
 
-# todo: rename to validate_guess? -> check type, empty, but also range
-def parse_guess(raw: str):
+def parse_guess(raw: str, difficulty: str = "Normal"):
     """
-    Parse user input into an int guess.
+    Parse user input into an int guess and validate it is within the difficulty range.
 
     Returns: (ok: bool, guess_int: int | None, error_message: str | None)
     """
@@ -28,10 +27,14 @@ def parse_guess(raw: str):
             value = int(float(raw))
         else:
             value = int(raw)
-            # check if value in range
 
     except Exception:
         return False, None, "That is not a number."
+
+    # check that guess is in range
+    low, high = get_range_for_difficulty(difficulty)
+    if not (low <= value <= high):
+        return False, None, f"Guess must be between {low} and {high}."
 
     return True, value, None
 

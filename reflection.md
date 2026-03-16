@@ -21,9 +21,9 @@ Bugs: (fixed) 1. Clicking new game changes doesn't refresh guess history
       (fixed) 8. Inconsistent error messages - too low, go lower -> should be opposite
       (fixed) 2. Clicking new game doesn't reset score
       (fixed) 6. Updating difficulty doesn't update the range displayed in the instructions message "Enter a number between ["range"]..."
+      (fixed) 5. Updating difficulty doesn't update secret even if it out of range
       ------------
       4. Accepts numbers outside of the range, 1-100
-      5. Updating difficulty doesn't update secret even if it out of range
       7. History is behind - it updates with the previous guess on your current guess
 ---
 
